@@ -14,6 +14,9 @@ display.set_caption("Пінг-Понг")
 main_background = image.load("ping-pong/images/main_bg.jpg").convert()
 main_background = transform.scale(main_background, (WIDTH, HEIGHT))
 
+mixer.init()
+platform_sound = mixer.Sound("ping-pong/sounds/soundreality-tennis-ball-hit-151257.mp3")
+platform_sound.set_volume(0.5)
 
 # ---СЕРВЕР ---
 def connect_to_server():
@@ -104,11 +107,9 @@ while True:
 
         if game_state['sound_event']:
             if game_state['sound_event'] == 'wall_hit':
-                # звук відбиття м'ячика від стін
                 pass
             if game_state['sound_event'] == 'platform_hit':
-                # звук відбиття м'ячика від платформи
-                pass
+                platform_sound.play()
 
     else:
         wating_text = font_main.render(f"Очікування гравців...", True, (255, 255, 255))
