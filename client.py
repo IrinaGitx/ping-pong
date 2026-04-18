@@ -17,6 +17,8 @@ main_background = transform.scale(main_background, (WIDTH, HEIGHT))
 mixer.init()
 platform_sound = mixer.Sound("ping-pong/sounds/soundreality-tennis-ball-hit-151257.mp3")
 platform_sound.set_volume(0.5)
+wall_hit = mixer.Sound("ping-pong/ping-pong/sounds/soundreality-tennis-ball-hit-151257.mp3")
+wall_hit.set_volume(0.5)
 
 # ---СЕРВЕР ---
 def connect_to_server():
@@ -47,9 +49,14 @@ def receive():
             break
 
 # --- ШРИФТИ ---
-font_win = font.Font(None, 72)
-font_main = font.Font(None, 36)
+font_win = font.Font("ping-pong/fonts/YesevaOne-Regular.ttf", 72)
+font_main = font.Font("ping-pong/fonts/YesevaOne-Regular.ttf", 36)
 # --- ЗОБРАЖЕННЯ ----
+lose_bg = image.load("ping-pong/images/lose_bg.jpg").convert()
+lose_bg = transform.scale(lose_bg, (WIDTH, HEIGHT))
+
+win_bg = image.load("ping-pong/images/win_bg.jpg").convert()
+win_bg = transform.scale(win_bg, (WIDTH, HEIGHT))
 
 # --- ЗВУКИ ---
 
@@ -81,9 +88,9 @@ while True:
                 you_winner = False
 
         if you_winner:
-            text = "Ти переміг!"
+            screen. blit(win_bg, (0, 0))
         else:
-            text = "Пощастить наступним разом!"
+            screen. blit(lose_bg, (0, 0))
 
         win_text = font_win.render(text, True, (255, 215, 0))
         text_rect = win_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
@@ -107,7 +114,7 @@ while True:
 
         if game_state['sound_event']:
             if game_state['sound_event'] == 'wall_hit':
-                pass
+                wall_hit.play()
             if game_state['sound_event'] == 'platform_hit':
                 platform_sound.play()
 
