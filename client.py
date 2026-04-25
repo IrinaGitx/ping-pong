@@ -14,6 +14,9 @@ display.set_caption("Пінг-Понг")
 main_background = image.load("ping-pong/images/main_bg.jpg").convert()
 main_background = transform.scale(main_background, (WIDTH, HEIGHT))
 
+ball_img = image.load("ping-pong/images/ball.png").convert_alpha()
+ball_img = transform.scale(ball_img, (20, 20))
+
 mixer.init()
 platform_sound = mixer.Sound("ping-pong/sounds/soundreality-tennis-ball-hit-151257.mp3")
 platform_sound.set_volume(0.5)
@@ -125,7 +128,7 @@ while True:
         screen.fill((30, 30, 30))
         draw.rect(screen, (0, 255, 0), (20, game_state['paddles']['0'], 20, 100))
         draw.rect(screen, (255, 0, 255), (WIDTH - 40, game_state['paddles']['1'], 20, 100))
-        draw.circle(screen, (255, 255, 255), (game_state['ball']['x'], game_state['ball']['y']), 10)
+        screen.blit(ball_img, (game_state['ball']['x'], game_state['ball']['y']))
         score_text = font_main.render(f"{game_state['scores'][0]} : {game_state['scores'][1]}", True, (255, 255, 255))
         screen.blit(score_text, (WIDTH // 2 -25, 20))
 
