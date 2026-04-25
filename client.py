@@ -71,6 +71,23 @@ while True:
         if e.type == QUIT:
             exit()
 
+    # для рестарту гри
+    if e.type == KEYDOWN and e.key == K_k:
+        if "winner" in game_state and game_state["winner"] is not None:
+            # Зупиняємо receive() потік
+            game_over = True
+            time.sleep(0.15)  # даємо потоку час завершитись
+
+            # Скидаємо стан
+            game_state = {}
+            you_win = None
+            game_over = False
+
+            # Перепідключення і новий потік
+            my_id, game_state, buffer, client = connect_to_server()
+            Thread(target=receive, daemon=True).start()
+
+
     if "countdown" in game_state and game_state["countdown"] > 0:
         screen.fill((0, 0, 0))
         countdown_text = font.Font(None, 72).render(str(game_state["countdown"]), True, (255, 255, 255))
